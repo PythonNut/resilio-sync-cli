@@ -48,7 +48,9 @@ class ResilioSyncClient(object):
 
     def get_token(self):
         token_url = urllib.parse.urljoin(self.API_URL, "token.html")
-        response = self.session.get(token_url, params={"t": self.format_timestamp()})
+        response = self.session.get(
+            token_url, params={"t": self.format_timestamp()}, timeout=5
+        )
         soup = bs4.BeautifulSoup(response.content, "lxml")
         token_divs = soup.select("#token")
         token = token_divs[0].decode_contents()
@@ -127,7 +129,7 @@ class ResilioSyncClient(object):
 
         # Now, check if the folder has our file
         if not self.file_exists(folder, child_rel_path):
-            raise ValueError('Path does not exist in the folder!')
+            raise ValueError("Path does not exist in the folder!")
 
         self.get_generic(
             {

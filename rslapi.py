@@ -27,9 +27,9 @@ class ResilioSyncFolder(object):
 
 
 class ResilioSyncClient(object):
-    API_URL = "http://localhost:8888/gui/"
-
-    def __init__(self, username, password):
+    def __init__(self, host, port, username, password):
+        self.host, self.port = host, port
+        self.api_url = f"http://{self.host}:{self.port}"
         self.username, self.password = username, password
 
         self.session = requests.Session()
@@ -47,10 +47,11 @@ class ResilioSyncClient(object):
         return Path(path).absolute().resolve()
 
     def get_token(self):
-        token_url = urllib.parse.urljoin(self.API_URL, "token.html")
+        token_url = urllib.parse.urljoin(self.api_url, "gui/token.html")
         response = self.session.get(
             token_url, params={"t": self.format_timestamp()}, timeout=5
         )
+
         soup = bs4.BeautifulSoup(response.content, "lxml")
         token_divs = soup.select("#token")
         token = token_divs[0].decode_contents()
@@ -58,7 +59,7 @@ class ResilioSyncClient(object):
 
     def get_generic(self, params):
         response = self.session.get(
-            self.API_URL,
+            urllib.parse.urljoin(self.api_url, "gui/"),
             params={"token": self.token, **params, "t": self.format_timestamp()},
             timeout=5,
         )

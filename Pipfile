@@ -7,3 +7,6 @@ name = "pypi"
 requests = "*"
 lxml = "*"
 "bs4" = "*"
+
+[dev-packages]
+ipython = "*"

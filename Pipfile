@@ -11,3 +11,4 @@ appdirs = "*"
 
 [dev-packages]
 ipython = "*"
+pre-commit = "*"

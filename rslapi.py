@@ -5,6 +5,8 @@ from datetime import datetime
 import bs4
 from pathlib import Path
 
+requests.packages.urllib3.disable_warnings()
+
 
 class ResilioSyncFolder(object):
     def __init__(self, folder_obj):
@@ -29,12 +31,13 @@ class ResilioSyncFolder(object):
 class ResilioSyncClient(object):
     def __init__(self, host, port, username, password):
         self.host, self.port = host, port
-        self.api_url = f"http://{self.host}:{self.port}"
+        self.api_url = f"https://{self.host}:{self.port}"
         self.username, self.password = username, password
 
         self.session = requests.Session()
         self.session.auth = (self.username, self.password)
         self.session.timeout = 1
+        self.session.verify = False
 
         self.token = self.get_token()
 

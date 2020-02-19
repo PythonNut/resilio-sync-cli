@@ -1,5 +1,6 @@
 import appdirs
 import argparse
+import os
 
 import base64
 import shelve
@@ -14,6 +15,8 @@ def main(args):
     conf_root = Path(appdirs.user_config_dir("rslctl", "PythonNut"))
     conf_file_path = conf_root / "config.json"
     conf_root.mkdir(exist_ok=True)
+
+    cwd = Path(os.environ["CWD"])
 
     if not conf_file_path.exists():
         host = input("host [localhost]: ") or "localhost"
@@ -45,10 +48,10 @@ def main(args):
 
     if args.parser == "parser_select":
         for f in args.file:
-            api.set_sync_status(f, True)
+            api.set_sync_status(cwd / f, True)
     elif args.parser == "parser_unselect":
         for f in args.file:
-            api.set_sync_status(f, False)
+            api.set_sync_status(cwd / f, False)
 
 
 if __name__ == "__main__":

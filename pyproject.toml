@@ -11,6 +11,7 @@ requests = "^2.22"
 lxml = "^4.4"
 bs4 = "^0.0.1"
 appdirs = "^1.4"
+pre-commit = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 

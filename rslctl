@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import sys
+import os
 import subprocess
 from pathlib import Path
 
 subprocess.run(
     ["poetry", "run", "python", "rslctl.py", *sys.argv[1:]],
     cwd=Path(__file__).resolve().parent,
+    env=dict(os.environ, CWD=str(Path.cwd())),
 )
